@@ -6,6 +6,9 @@ on:
 jobs:
   upload-source-maps:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.14.x]
     env:
       SENTRY_RELEASE: ${{ github.sha }}
       SOURCE_DIR: './build/'
@@ -16,7 +19,13 @@ jobs:
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - name: Install dependencies
+        run: yarn && yarn run initialize
         run: yarn
       - name: Build
         run: export SENTRY_RELEASE=${{ github.sha }} && yarn build
