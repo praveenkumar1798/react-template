@@ -74,14 +74,6 @@ export function HomeContainer({
   const history = useHistory();
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'test') {
-      const a = null;
-      // eslint-disable-next-line
-      console.log(a.a300);
-    }
-  }, []);
-
-  useEffect(() => {
     const loaded = get(reposData, 'items', null) || reposError;
     if (loaded) {
       setLoading(false);
@@ -175,7 +167,7 @@ export function HomeContainer({
   return (
     <Container maxwidth={maxwidth} padding={padding}>
       <RightContent>
-        <StyledT onClick={handleStoriesClick} data-testid="redirect" id="stories" />
+        <StyledT onClick={() => handleStoryClick()} data-testid="redirect" id="stories" />
       </RightContent>
       <CustomCard title={intl.formatMessage({ id: 'repo_search' })} maxwidth={maxwidth}>
         <T marginBottom={10} id="get_repo_details" />
