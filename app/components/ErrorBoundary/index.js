@@ -21,6 +21,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);
+    Sentry.setTag('page_locale', 'en-us');
     Sentry.captureException(error, { extra: errorInfo });
   }
 
