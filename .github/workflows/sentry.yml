@@ -26,7 +26,6 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn && yarn run initialize
-        run: yarn
       - name: Build
         run: export SENTRY_RELEASE=${{ github.sha }} && yarn build
       - name: AWS Deploy #5
