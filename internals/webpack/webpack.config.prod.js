@@ -38,7 +38,8 @@ module.exports = require('./webpack.config.base')({
             output: {
               comments: false,
               ascii_only: true
-            }
+            },
+            sourceMap: true
           },
           parallel: true
         }).apply(compiler);
@@ -140,10 +141,13 @@ module.exports = require('./webpack.config.base')({
       ]
     }),
     new SentryPlugin({
+      include: {
+        paths: ['.']
+      },
+      ext: ['map', 'js'],
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
-      include: '.',
       ignore: ['node_modules', 'internals', 'build']
     }),
 
@@ -152,6 +156,7 @@ module.exports = require('./webpack.config.base')({
       generateStatsFile: true
     })
   ],
+  devtool: 'source-map',
   performance: {
     assetFilter: (assetFilename) => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename)
   }
