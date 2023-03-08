@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react';
 import { translate } from '@components/IntlGlobalProvider/index';
 
 class ErrorBoundary extends React.Component {
@@ -20,6 +21,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);
+    Sentry.captureException(error, { extra: errorInfo });
   }
 
   render() {
