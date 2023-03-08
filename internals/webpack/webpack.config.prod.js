@@ -5,6 +5,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('@lcdp/offline-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const SentryPlugin = require('@sentry/webpack-plugin');
 
 const { isProd, isUAT, getBasePublicPath } = require('../utils');
 
@@ -138,6 +139,14 @@ module.exports = require('./webpack.config.base')({
         }
       ]
     }),
+    new SentryPlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      include: '.',
+      ignore: ['node_modules', 'internals', 'build']
+    }),
+
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       generateStatsFile: true
